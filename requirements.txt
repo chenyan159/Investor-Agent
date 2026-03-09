@@ -1,1 +1,8 @@
-requests
+fastapi
+uvicorn[standard]
+google-api-python-client
+google-auth
+langchain
+langgraph
+langchain-google-genai
+langchain-openai
