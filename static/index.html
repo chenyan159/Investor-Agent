@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Investor Agent (Google Drive)</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 1000px; margin: 24px auto; padding: 0 16px; }
+    .row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-bottom: 10px; }
+    textarea { width: 100%; min-height: 120px; }
+    input[type="text"], select { padding: 8px; min-width: 220px; }
+    button { padding: 8px 12px; cursor: pointer; }
+    .card { border: 1px solid #ddd; border-radius: 8px; padding: 12px; margin: 10px 0; }
+    #results pre { white-space: pre-wrap; background: #f6f6f6; padding: 10px; border-radius: 6px; }
+  </style>
+</head>
+<body>
+  <h1>Investor Agent (Drive as DB)</h1>
+
+  <div class="card">
+    <h3>方式2：项目切换（每个项目对应 Google Drive 同名文件夹）</h3>
+    <div class="row">
+      <select id="projectSelect"></select>
+      <input id="projectName" type="text" placeholder="新项目名称" />
+      <button onclick="createProject()">创建/切换项目</button>
+    </div>
+    <div>当前项目：<b id="currentProject"></b></div>
+  </div>
+
+  <div class="card">
+    <h3>方式1：Prompt + 列表并行执行</h3>
+    <label>Prompt 模板（用 <code>{{item}}</code> 作为替换标记；列表为空时会直接执行一次）</label>
+    <textarea id="promptTemplate"></textarea>
+
+    <label>输入列表（每行一个字符串，可为空）</label>
+    <textarea id="items"></textarea>
+
+    <div class="row">
+      <label>模型：</label>
+      <select id="modelName">
+        <option value="gemini-1.5-flash">gemini-1.5-flash</option>
+        <option value="gemini-1.5-pro">gemini-1.5-pro</option>
+        <option value="gpt-4o-mini">gpt-4o-mini</option>
+      </select>
+      <label>提取公司名/股票代号：</label>
+      <input id="extractToggle" type="checkbox" checked />
+    </div>
+
+    <div class="row">
+      <button onclick="runPrompts()">并行运行</button>
+      <input id="configName" type="text" placeholder="保存配置名称" />
+      <button onclick="saveConfig()">保存当前 Prompt/列表/设置</button>
+    </div>
+  </div>
+
+  <div id="results" class="card">
+    <h3>运行结果</h3>
+    <pre id="resultText">暂无结果</pre>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
